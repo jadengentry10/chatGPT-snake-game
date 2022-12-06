@@ -2,8 +2,13 @@
 import pygame
 import random
 import os
+import pygame.mixer
 # Initialize the pygame library
 pygame.init()
+
+# Initialize the mixer
+pygame.mixer.init()
+
 
 # Check if the file exists and if not create it
 if not os.path.exists('high_score.txt'):
@@ -49,8 +54,15 @@ direction = "UP"
 food_pos = (random.randint(0, 19) * 20, random.randint(0, 19) * 20)
 
 
+# Load the sound file
+sound = pygame.mixer.music.load('main_track.mp3')
+# Set the volume of the music
+pygame.mixer.music.set_volume(0.5)
+# Play the music in a loop
+pygame.mixer.music.play(-1)
 # Main game loop
 while True:
+
     dt = clock.tick()
     fps = 1000 / dt
     fps = round(fps)
@@ -84,7 +96,7 @@ while True:
             file = open("high_score.txt", "w")
             file.write(str(high_score))
 
-        # Change the direction of the snake based on the arrow keys pressed
+    # Change the direction of the snake based on the arrow keys pressed
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
                 direction = "UP"
@@ -94,7 +106,6 @@ while True:
                 direction = "LEFT"
             if event.key == pygame.K_RIGHT:
                 direction = "RIGHT"
-
     # Update the position of the snake based on its direction
     x, y = snake[0]
     if direction == "UP":
@@ -108,6 +119,15 @@ while True:
 
     # Check if the snake has collided with the boundaries of the game screen or itself
     if x < 0 or x >= 400 or y < 0 or y >= 400 or (x, y) in snake:
+        pygame.mixer.music.stop()
+        # Load the sound file
+        death_sound = pygame.mixer.Sound('death_sound.mp3')
+
+        # Set the volume of the sound
+        death_sound.set_volume(1.0)
+
+        # Play the sound
+        death_sound.play()
         # Display game over message
         font = pygame.font.SysFont("Helvetica", 32)
         text = font.render("Game Over!", True, WHITE)
@@ -126,6 +146,8 @@ while True:
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
                 # Reset the game state and continue the game loop
+                # Play the music in a loop
+                pygame.mixer.music.play(-1)
                 score = 0
                 snake = [(200, 200), (180, 200), (160, 200)]
                 direction = "RIGHT"
