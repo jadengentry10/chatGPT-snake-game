@@ -1,5 +1,5 @@
 # Snake Game
-  This is a simple Snake game written in Python using the pygame library. Generated almost entirely with ChatGPT
+  This is a simple Snake game written in Python using the pygame library. Generated almost entirely with ChatGPT after testing what it can do.
 
 # Features
   Game grid of 20x20 cells
