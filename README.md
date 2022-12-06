@@ -11,6 +11,6 @@
   High score is saved in a high_score.txt file
 
 # Requirements
-  pygame
+  `pip install pygame`
 # Controls
   Use the arrow keys to move the snake. The snake will move in the direction of the key pressed.
